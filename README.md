@@ -32,3 +32,30 @@ switch:
     payload_on: 'on'
     payload_off: 'off'
 ```
+
+## Adding systemd service
+
+Create /etc/systemd/system/motion-hdmi.service
+Paste this code:
+
+```
+[Unit]
+Description=Mqtt hdmi Service
+After=multi-user.target
+
+[Service]
+Type=idle
+Environment=XAUTHORITY=/home/pi/.Xauthority
+ExecStart=/usr/bin/python3 /home/pi/mqtt-screen-power/main.py &
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+```
+Then run as root or using sudo those command line:
+```bash
+#systemctl daemon-reload
+#systemctl enable motion-hdmi.service
+#systemctl start motion-hdmi.service
+```
